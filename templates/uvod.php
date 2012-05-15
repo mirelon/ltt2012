@@ -1,0 +1,2 @@
+<p>Chceš mať neopakovateľný zážitok z leta? Máš odvahu na 10 dní zmiznúť od každodených problémov? Stráviť 10 dní s vedúcimi z korešpondenčných seminárov, kamarátmi zo sústredení? Spoznať ďalších super ľudí z iných súťaží? A to všetko uprostred prírody, v krajine, kde sa lavice opravovali a zľavy sa dražili? Potom neváhaj a prihlás sa na Letný Tábor Trojstenu, ktorý sa bude konať 22. - 31.8.2012 v malebnej obci Inovce (pri Sobranciach (<span title="proste daleky vychod">pri Michalovciach</span>))</p>
+
