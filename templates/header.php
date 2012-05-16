@@ -1,4 +1,12 @@
-<h1>Dražba zliav LTT 2012</h1>
+<h1>
+<?php
+  if(Session::isLoggedIn()) {
+    echo 'Dražba zliav LTT 2012';
+  } else {
+    echo 'Letný tábor trojstenu 2012';
+  }
+?>
+</h1>
 <div class="navigation">
 <?php foreach($pages as $page) { ?>
   <a href="<?php echo $page['url']; ?>">
