@@ -13,6 +13,7 @@ $pages = array(
 );
 if(Session::isLoggedIn()) {
   $pages = array_merge($pages, array(
+    'drazba' => array('script' => 'drazba.php', 'nav' => 'Dražba', 'url' => $base_url.'?page=drazba'),
     'sifry' => array('script' => 'sifry.php', 'nav' => 'Šifry', 'url' => $base_url.'?page=sifry'),
     'logout' => array('script' => 'logout.php', 'nav' => 'Logout', 'url' => $base_url.'?page=logout'),
   ));
