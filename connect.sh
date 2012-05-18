@@ -1,1 +1,1 @@
-mysql --user=miso --password=Oop7uhoh ltt2012
+mysql --user=ltt2012 --password=kiR5uyei ltt2012

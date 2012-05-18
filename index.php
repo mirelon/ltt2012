@@ -17,13 +17,17 @@ if(Session::isLoggedIn()) {
     'sifry' => array('script' => 'sifry.php', 'nav' => 'Šifry', 'url' => $base_url.'?page=sifry'),
     'logout' => array('script' => 'logout.php', 'nav' => 'Logout', 'url' => $base_url.'?page=logout'),
   ));
+  if(Session::getLoggedUser()->user_id == 3) {
+    $pages = array_merge($pages, array(
+      'admin' => array('script' => 'admin.php', 'nav' => 'Admin panel', 'url' => $base_url.'?page=admin')
+    ));
+  }
 } else {
   $pages = array_merge($pages, array(
     'login' => array('script' => 'login.php', 'nav' => 'Login', 'url' => $base_url.'?page=login')
   ));
 }
 //    'settings' => array('script' => 'settings.php', 'nav' => 'Nastavenia', 'url' => $base_url.'?page=settings')
-
 if(isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
   $current_page = $pages[$_GET['page']]['script'];
 }

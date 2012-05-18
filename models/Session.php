@@ -6,7 +6,7 @@ class Session {
   protected static $_logged_user = null;
 
   public static function getLoggedUser() {
-    return self::_logged_user;
+    return self::$_logged_user;
   }
 
   public static function isLoggedIn() {
