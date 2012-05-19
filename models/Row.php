@@ -82,6 +82,16 @@ class Row
         mysql_query($sql);
     }
 
+    public function getDuplicate() {
+        $class = get_called_class();
+        $duplicate = new $class();
+        foreach($this->_data as $field=>$value) {
+            if($field == $class::$_primary_key) continue;
+            $duplicate->$field = $value;
+        }
+        return $duplicate;
+    }
+
 }
 
 ?>
