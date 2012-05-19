@@ -7,7 +7,8 @@ Db::init();
 Session::checkLogin();
 
 $current_page = 'uvod.php';
-$base_url = 'http://people.ksp.sk/~miso/ltt2012/';
+//$base_url = 'http://people.ksp.sk/~miso/ltt2012/';
+$base_url = 'http://localhost/ltt2012/';
 $pages = array(
     'index' => array('script' => 'uvod.php', 'nav' => 'Úvod', 'url' => $base_url)
 );
@@ -19,7 +20,8 @@ if(Session::isLoggedIn()) {
   ));
   if(Session::getLoggedUser()->user_id == 3) {
     $pages = array_merge($pages, array(
-      'admin' => array('script' => 'admin.php', 'nav' => 'Admin panel', 'url' => $base_url.'?page=admin')
+      'discount' => array('script' => 'discount.php', 'nav' => 'Pridaj zľavu', 'url' => $base_url.'?page=discount'),
+      'discount_list' => array('script' => 'discount_list.php', 'nav' => 'Zoznam zliav', 'url' => $base_url.'?page=discount_list'),
     ));
   }
 } else {
@@ -32,7 +34,7 @@ if(isset($_GET['page']) && array_key_exists($_GET['page'], $pages)) {
   $current_page = $pages[$_GET['page']]['script'];
 }
 
-require_once('templates/main.php'); 
+require_once('templates/main.php');
 
 Db::terminate();
 ?>

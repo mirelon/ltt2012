@@ -4,8 +4,10 @@ require_once('Utils.php');
 
 class Db
 {
-  public static $user = 'ltt2012';
-  public static $password = 'kiR5uyei';
+  public static $user = 'root';
+  public static $password = 'koren';
+//  public static $user = 'ltt2012';
+//  public static $password = 'kiR5uyei';
   //public static $user = 'miso';
   //public static $password = 'Oop7uhoh';
   public static $host = 'localhost';
@@ -21,6 +23,10 @@ class Db
   public static function terminate()
   {
     mysql_close(self::$link);
+  }
+
+  public static function query($sql) {
+      mysql_query($sql);
   }
 
   public static function fetchAll($sql)
@@ -64,7 +70,7 @@ class Db
 	$sql = 'INSERT INTO `user_accesses` (`user_id`, `user_access_timestamp`) VALUES (' . escape($_SESSION['user_id']) . ', NOW())';
 	mysql_query($sql);
   }
-  
+
   public static function getUserCount()
   {
     $sql = 'SELECT COUNT(`user_id`) AS `count` FROM `users`;';
