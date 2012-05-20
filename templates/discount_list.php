@@ -5,7 +5,10 @@ if(isset($_GET['action']) && $_GET['action']=='duplicate') {
     $discount->getDuplicate()->save();
 }
 ?>
-<ul>
+<script type="text/javascript">
+    $(function(){$('#sortable').sortable();$('#sortable').disableSelection();});
+</script>
+<ul id="sortable">
 <?php
 foreach (Db::fetchAll('SELECT * FROM discounts;') as $row)
 {
