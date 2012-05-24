@@ -5,14 +5,10 @@ require_once('Utils.php');
 class Db
 {
 
-    public static $user = 'root';
-    public static $password = 'koren';
-//  public static $user = 'ltt2012';
-//  public static $password = 'kiR5uyei';
-    //public static $user = 'miso';
-    //public static $password = 'Oop7uhoh';
-    public static $host = 'localhost';
-    public static $dbname = 'ltt2012';
+    public static $user;
+    public static $password;
+    public static $host;
+    public static $dbname;
     public static $link;
 
     public static function init()

@@ -2,7 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
+require_once('config.php');
 require_once('models/Session.php');
+Db::$user = $db_user;
+Db::$password = $db_password;
+Db::$dbname = $db_name;
+Db::$host = $db_host;
 Db::init();
 Session::checkLogin();
 
