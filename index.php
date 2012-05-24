@@ -22,7 +22,9 @@ if(Session::isLoggedIn()) {
     $pages = array_merge($pages, array(
       'discount' => array('script' => 'discount.php', 'nav' => 'Pridaj zľavu', 'url' => $base_url.'?page=discount'),
       'discount_list' => array('script' => 'discount_list.php', 'nav' => 'Zoznam zliav', 'url' => $base_url.'?page=discount_list'),
+      'update_discount_order' => array('script' => 'update_discount_order.php', 'nav' => null, 'url' => $base_url.'?page=update_discount_order'),
     ));
+
   }
 } else {
   $pages = array_merge($pages, array(

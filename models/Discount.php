@@ -8,7 +8,14 @@ class Discount extends Row {
   public function getDuplicate() {
       $duplicate = parent::getDuplicate();
       $duplicate->timestamp_start = null;
+      $duplicate->assignNewOrder();
       return $duplicate;
+  }
+
+  public function assignNewOrder() {
+      $sql = 'SELECT MAX(`order`)+1 FROM discounts;';
+      $this->order = Db::fetchOne($sql);
+      return $this;
   }
 
 }

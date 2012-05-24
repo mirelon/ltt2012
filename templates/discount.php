@@ -14,6 +14,7 @@ if(isset($_POST['title'])) {
     $discount->bid_initial_validity = intval($_POST['bid_initial_validity']);
     $discount->bid_validity_decay = intval($_POST['bid_validity_decay']);
     $discount->count = intval($_POST['count']);
+    $discount->assignNewOrder();
     $discount->save();
 }
 

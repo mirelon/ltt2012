@@ -66,7 +66,7 @@ class Row
         $class = get_called_class();
         if (!isset($this->_data[$class::$_primary_key]))
         {
-            $sql = 'INSERT INTO ' . $class::$_table . '(' . implode(', ', array_keys($this->_data)) . ') VALUES ("' . implode('", "', array_values($this->_data)) . '");';
+            $sql = 'INSERT INTO ' . $class::$_table . '(`' . implode('`, `', array_keys($this->_data)) . '`) VALUES ("' . implode('", "', array_values($this->_data)) . '");';
         }
         else
         {
