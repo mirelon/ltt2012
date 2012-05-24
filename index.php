@@ -12,8 +12,6 @@ Db::init();
 Session::checkLogin();
 
 $current_page = 'uvod.php';
-//$base_url = 'http://people.ksp.sk/~miso/ltt2012/';
-$base_url = 'http://localhost/ltt2012/';
 $pages = array(
     'index' => array('script' => 'uvod.php', 'nav' => 'Úvod', 'url' => $base_url)
 );
