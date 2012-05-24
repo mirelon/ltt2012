@@ -58,3 +58,14 @@ div.wrapper {
   width: 700px;
   margin: 0 auto;
 }
+
+div.discount {
+    background-color: #dddddd;
+    padding:15px;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+
+div.discount h3 {
+    margin:0px;
+}

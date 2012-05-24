@@ -9,11 +9,18 @@ if(isset($_GET['action']) && $_GET['action']=='duplicate') {
     $(function(){$('#sortable').sortable();$('#sortable').disableSelection();});
 </script>
 <form id="discount_order_form" action="<?php echo $base_url; ?>?page=update_discount_order" method="post">
-<h2>Začaté zľavy</h2>
+<h2>Ukončené zľavy</h2>
 <ul>
 <?php
-foreach (Db::fetchAll('SELECT * FROM discounts WHERE timestamp_start>NOW() ORDER BY `order`;') as $row) {
-    $discount = Discount::fromArray($row);
+foreach (Discount::getFinished() as $discount) {
+    echo "<li>" . $discount->timestamp_start . " - " . $discount->title . "</li>";
+}
+?>
+</ul>
+<h2>Aktívne zľavy</h2>
+<ul>
+<?php
+foreach (Discount::getActive() as $discount) {
     echo "<li>" . $discount->timestamp_start . " - " . $discount->title . "</li>";
 }
 ?>
@@ -22,9 +29,8 @@ foreach (Db::fetchAll('SELECT * FROM discounts WHERE timestamp_start>NOW() ORDER
 Môžeš preusporiadať a editovať:
 <ul id="sortable">
 <?php
-foreach (Db::fetchAll('SELECT * FROM discounts WHERE timestamp_start IS NULL OR timestamp_start<NOW() ORDER BY `order`;') as $row)
+foreach (Discount::getInactive() as $discount)
 {
-    $discount = Discount::fromArray($row);
     ?>
         <li order="<?php echo $discount->order; ?>">
             <a href="?page=discount&discount_id=<?php echo $discount->discount_id; ?>">

@@ -48,6 +48,15 @@ class Row
         return $row;
     }
 
+    public static function fromArrayOfArray($datas) {
+        $class = get_called_class();
+        $rows = array();
+        foreach($datas as $data) {
+            $rows []= $class::fromArray($data);
+        }
+        return $rows;
+    }
+
     public function getValue($field, $default = null) {
         if (!array_key_exists($field, $this->_data)) {
             return $default;
