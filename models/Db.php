@@ -45,7 +45,12 @@ class Db
         {
             throw new Exception('No row fetched');
         }
-        return mysql_fetch_assoc($result);
+        $return = mysql_fetch_assoc($result);
+        if ($return === false)
+        {
+            throw new Exception('No row fetched');
+        }
+        return $return;
     }
 
     public static function fetchOne($sql)

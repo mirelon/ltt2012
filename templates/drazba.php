@@ -2,11 +2,12 @@
 <?php
     require_once('models/Discount.php');
     $discounts = Discount::getActive();
+    /* @var $discount Discount */
     foreach($discounts as $discount) {
 ?>
 <div class="discount rounded">
     <h3><?php echo $discount->title; ?></h3>
-    Druhá najvyššia ponuka: ___<br/>
+    Najvyššia ponuka: <?php echo $discount->getLastBidPrice(); ?><br/>
     Kedy bude predaná: ___<br/>
     Prihoď
 </div>
