@@ -162,18 +162,18 @@ class Discount extends Row
      */
     public static function getNewWinning()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) AND discount(SELECT SUM(extended_validity) FROM bids WHERE bids.discount_id = discounts.discount_id)';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) AND discount(SELECT SUM(extended_validity) FROM bids WHERE bids.discount_id = discounts.discount_id)';
     }
 
     public static function getActiveCount()
     {
-        $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id);';
+        $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id);';
         return Db::fetchOne($sql);
     }
 
     public static function getActive()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) ORDER BY `order`;';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) ORDER BY `order`;';
         return self::fromArrayOfArray(Db::fetchAll($sql));
     }
 
@@ -185,7 +185,7 @@ class Discount extends Row
 
     public static function getInactive()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start>NOW() OR timestamp_start IS NULL ORDER BY `order`;';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start>NOW() OR timestamp_start IS NULL OR timestamp_start="0000-00-00 00:00:00" ORDER BY `order`;';
         return self::fromArrayOfArray(Db::fetchAll($sql));
     }
 
