@@ -13,7 +13,7 @@ if(isset($_GET['action']) && $_GET['action']=='duplicate') {
 <ul>
 <?php
 foreach (Discount::getFinished() as $discount) {
-    echo "<li>" . $discount->timestamp_start . " - " . $discount->title . "</li>";
+    echo "<li>" . formatSqlTimestamp($discount->timestamp_start) . " - " . $discount->title . "</li>";
 }
 ?>
 </ul>
@@ -21,7 +21,7 @@ foreach (Discount::getFinished() as $discount) {
 <ul>
 <?php
 foreach (Discount::getActive() as $discount) {
-    echo "<li>" . $discount->timestamp_start . " - " . $discount->title . "</li>";
+    echo "<li>" . formatSqlTimestamp($discount->timestamp_start) . " - " . $discount->title . "</li>";
 }
 ?>
 </ul>

@@ -147,7 +147,7 @@ class Discount extends Row
     {
         try
         {
-            return date("j.n. H:i:s", $this->getBidValidity());
+            return formatTimestamp($this->getBidValidity());
         }
         catch (Exception $e)
         {
