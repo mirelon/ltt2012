@@ -8,7 +8,7 @@
 <div class="discount rounded">
     <h3><?php echo $discount->title; ?></h3>
     Najvyššia ponuka: <?php echo $discount->getLastBidPrice(); ?><br/>
-    Kedy bude predaná: ___<br/>
+    Kedy bude predaná: <?php echo $discount->getBidValidityString(); ?><br/>
     Prihoď
 </div>
 <?php
