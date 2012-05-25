@@ -23,6 +23,18 @@ class Discount extends Row
         return $this;
     }
 
+    public function hasStartedYet() {
+        if (is_null($this->timestamp_start))
+        {
+            return false;
+        }
+        if (strtotime($this->timestamp_start) > time())
+        {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Aktivne su take, co uz zacali a zaroven este nikto nevyhral.
      * Pre ne moze ale nemusi existovat bid.
@@ -30,12 +42,7 @@ class Discount extends Row
      */
     public function isActive()
     {
-        if (is_null($this->timestamp_start))
-        {
-            return false;
-        }
-        if (strtotime($this->timestamp_start) > time())
-        {
+        if(!$this->hasStartedYet()) {
             return false;
         }
         $sql = 'SELECT COUNT(*) FROM bids WHERE bids.winning = 1 AND bids.discount_id = ' . $this->discount_id;
@@ -48,13 +55,21 @@ class Discount extends Row
      */
     public function getLastBidPrice()
     {
+        if(!$this->hasStartedYet()) {
+            throw new Exception('Getting last bid price of discount not started yet');
+        }
         try
         {
             return $this->getLastBid()->price;
         }
         catch (Exception $e)
         {
-            return $this->asking_price;
+            if($this->price_drop_time == 0) {
+                return $this->asking_price;
+            }
+            $passed = time() - strtotime($this->timestamp_start);
+            $dropped = ceil($passed / $this->price_drop_time);
+            return $this->asking_price - $dropped;
         }
     }
 
