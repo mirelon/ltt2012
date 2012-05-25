@@ -140,7 +140,7 @@ class Discount extends Row
     }
 
     /**
-     * Datum vo formate "j.n. H:i:s", pripadne string "Nikdy"
+     * Datum vo formate "j.n. H:i:s", pripadne string "Uvidíme"
      * @return string
      */
     public function getBidValidityString()
@@ -151,7 +151,7 @@ class Discount extends Row
         }
         catch (Exception $e)
         {
-            return "Nikdy";
+            return "Uvidíme";
         }
     }
 
