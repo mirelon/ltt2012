@@ -1,7 +1,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Drazba zliav LTT 2012</title>
+<title>
+<?php
+  if(Session::isLoggedIn()) {
+    echo "Dražba zliav LTT 2012";
+  } else {
+    echo 'Letný tábor trojstenu 2012';
+  }
+?>
+</title>
 <link rel="stylesheet" href="templates/style.css" />
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="js/ui/jquery-ui-1.8.20.custom.js"></script>
