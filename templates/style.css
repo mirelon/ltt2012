@@ -4,8 +4,14 @@
   text-decoration:none;
 }
 
-div.rounded {
+.rounded {
   border-radius: 10px;
+}
+
+a.button {
+  border:1px dashed black;
+  padding:0px 2px 2px 2px;
+  margin-left:2px;
 }
 
 
@@ -68,4 +74,17 @@ div.discount {
 
 div.discount h3 {
     margin:0px;
+}
+
+#discount_order_form #sortable li {
+  line-height: 1.6em;
+}
+
+a.duplicate {
+  background-color:#B2CC80;
+}
+
+a.delete {
+  background-color:#FF5050;
+  color:#802828;
 }

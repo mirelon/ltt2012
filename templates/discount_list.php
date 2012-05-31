@@ -36,10 +36,13 @@ foreach (Discount::getInactive() as $discount)
             <a href="?page=discount&discount_id=<?php echo $discount->discount_id; ?>">
                 <?php echo $discount->title; ?>
             </a>
-            <a href="?page=discount_list&action=duplicate&discount_id=<?php echo $discount->discount_id; ?>">
-                --> duplicate
+            <a class="button duplicate" href="?page=discount_list&action=duplicate&discount_id=<?php echo $discount->discount_id; ?>">
+              duplicate
             </a>
 
+            <a class="button delete" href="?page=discount_list&action=delete&discount_id=<?php echo $discount->discount_id; ?>">
+              delete
+            </a>
         </li>
         <?php
     }
