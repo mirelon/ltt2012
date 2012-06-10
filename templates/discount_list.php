@@ -1,6 +1,7 @@
 <?php
 require_once('models/Discount.php');
-if(isset($_GET['action']) && $_GET['action']=='duplicate') {
+if (isset($_GET['action']) && $_GET['action'] == 'duplicate')
+{
     $discount = Discount::getById($_GET['discount_id']);
     $discount->getDuplicate()->save();
 }
@@ -9,47 +10,61 @@ if(isset($_GET['action']) && $_GET['action']=='duplicate') {
     $(function(){$('#sortable').sortable();$('#sortable').disableSelection();});
 </script>
 <form id="discount_order_form" action="<?php echo $base_url; ?>?page=update_discount_order" method="post">
-<h2>Ukončené zľavy</h2>
-<ul>
-<?php
-foreach (Discount::getFinished() as $discount) {
-    echo "<li>" . formatSqlTimestamp($discount->timestamp_start) . " - " . $discount->title . "</li>";
-}
-?>
-</ul>
-<h2>Aktívne zľavy</h2>
-<ul>
-<?php
-foreach (Discount::getActive() as $discount) {
-    echo "<li>" . formatSqlTimestamp($discount->timestamp_start) . " - " . $discount->title . "</li>";
-}
-?>
-</ul>
-<h2>Nezačaté zľavy</h2>
-Môžeš preusporiadať a editovať:
-<ul id="sortable">
-<?php
-foreach (Discount::getInactive() as $discount)
-{
-    ?>
-        <li order="<?php echo $discount->order; ?>">
-            <a href="?page=discount&discount_id=<?php echo $discount->discount_id; ?>">
-                <?php echo $discount->title; ?>
-            </a>
-            <a class="button duplicate" href="?page=discount_list&action=duplicate&discount_id=<?php echo $discount->discount_id; ?>">
-              duplicate
-            </a>
-
-            <a class="button delete" href="?page=discount_list&action=delete&discount_id=<?php echo $discount->discount_id; ?>">
-              delete
-            </a>
-        </li>
+    <h2>Ukončené zľavy</h2>
+    <ul>
         <?php
-    }
-    ?>
-</ul>
-<input type="hidden" name="discount_order" id="discount_order" value="" />
-<input type="submit" value="Updatni poradie" />
+        foreach (Discount::getFinished() as $discount)
+        {
+            echo "<li>"
+            . formatSqlTimestamp($discount->timestamp_start)
+            . " - "
+            . $discount->title
+            . '<a class="button duplicate" href="?page=discount_list&action=duplicate&discount_id='
+            . $discount->discount_id
+            . '">duplicate</a></li>';
+        }
+        ?>
+    </ul>
+    <h2>Aktívne zľavy</h2>
+    <ul>
+        <?php
+        foreach (Discount::getActive() as $discount)
+        {
+            echo "<li>"
+            . formatSqlTimestamp($discount->timestamp_start)
+            . " - "
+            . $discount->title
+            . '<a class="button duplicate" href="?page=discount_list&action=duplicate&discount_id='
+            . $discount->discount_id
+            . '">duplicate</a></li>';
+        }
+        ?>
+    </ul>
+    <h2>Nezačaté zľavy</h2>
+    Môžeš preusporiadať a editovať:
+    <ul id="sortable">
+        <?php
+        foreach (Discount::getInactive() as $discount)
+        {
+            ?>
+            <li order="<?php echo $discount->order; ?>">
+                <a href="?page=discount&discount_id=<?php echo $discount->discount_id; ?>">
+                    <?php echo $discount->title; ?>
+                </a>
+                <a class="button duplicate" href="?page=discount_list&action=duplicate&discount_id=<?php echo $discount->discount_id; ?>">
+                    duplicate
+                </a>
+
+                <a class="button delete" href="?page=discount_list&action=delete&discount_id=<?php echo $discount->discount_id; ?>">
+                    delete
+                </a>
+            </li>
+            <?php
+        }
+        ?>
+    </ul>
+    <input type="hidden" name="discount_order" id="discount_order" value="" />
+    <input type="submit" value="Updatni poradie" />
 </form>
 
 <script type="text/javascript">
