@@ -41,24 +41,29 @@ class Row
         return $row;
     }
 
-    public static function fromArray($data) {
+    public static function fromArray($data)
+    {
         $class = get_called_class();
         $row = new $class();
         $row->_data = $data;
         return $row;
     }
 
-    public static function fromArrayOfArray($datas) {
+    public static function fromArrayOfArray($datas)
+    {
         $class = get_called_class();
         $rows = array();
-        foreach($datas as $data) {
-            $rows []= $class::fromArray($data);
+        foreach ($datas as $data)
+        {
+            $rows [] = $class::fromArray($data);
         }
         return $rows;
     }
 
-    public function getValue($field, $default = null) {
-        if (!array_key_exists($field, $this->_data)) {
+    public function getValue($field, $default = null)
+    {
+        if (!array_key_exists($field, $this->_data))
+        {
             return $default;
         }
         return $this->_data[$field];
@@ -82,20 +87,27 @@ class Row
             $sets = array();
             foreach ($this->_data as $field => $value)
             {
-                if($field != $class::$_primary_key) {
-                    $sets [] = $field . ' = "' . mysql_real_escape_string($value) . '"';
+                if ($field != $class::$_primary_key)
+                {
+                    $sets [] = '`' . $field . '` = "' . mysql_real_escape_string($value) . '"';
                 }
             }
-            $sql = 'UPDATE ' . $class::$_table . ' SET ' . implode(', ', $sets) . ' WHERE ' . $class::$_primary_key . ' = "' . $this->_data[$class::$_primary_key] . '";';
+            $sql = 'UPDATE ' . $class::$_table . ' SET ' . implode(', ', $sets) . ' WHERE `' . $class::$_primary_key . '` = "' . $this->_data[$class::$_primary_key] . '";';
         }
-        mysql_query($sql);
+        if (mysql_query($sql) === false)
+        {
+            throw new Exception("Could not save the item: " . mysql_error());
+        }
     }
 
-    public function getDuplicate() {
+    public function getDuplicate()
+    {
         $class = get_called_class();
         $duplicate = new $class();
-        foreach($this->_data as $field=>$value) {
-            if($field == $class::$_primary_key) continue;
+        foreach ($this->_data as $field => $value)
+        {
+            if ($field == $class::$_primary_key)
+                continue;
             $duplicate->$field = $value;
         }
         return $duplicate;

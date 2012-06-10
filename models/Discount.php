@@ -4,6 +4,7 @@ require_once('models/Bid.php');
 
 class Discount extends Row
 {
+    public static $NUMBER_OF_CONCURRENT_DISCOUNTS = 3;
 
     protected static $_table = 'discounts';
     protected static $_primary_key = 'discount_id';
@@ -155,6 +156,16 @@ class Discount extends Row
         }
     }
 
+    /**
+     *
+     * @return Discount
+     */
+    public function setStartedNow()
+    {
+        $this->timestamp_start = NOW();
+        return $this;
+    }
+
     /*     * ***********      STATIC FUNCTIONS      ************* */
 
     /**
@@ -162,31 +173,84 @@ class Discount extends Row
      */
     public static function getNewWinning()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) AND discount(SELECT SUM(extended_validity) FROM bids WHERE bids.discount_id = discounts.discount_id)';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<=NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) AND discount(SELECT SUM(extended_validity) FROM bids WHERE bids.discount_id = discounts.discount_id)';
     }
 
     public static function getActiveCount()
     {
-        $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id);';
+        $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<=NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id);';
         return Db::fetchOne($sql);
     }
 
     public static function getActive()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) ORDER BY `order`;';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<=NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) ORDER BY `order`;';
         return self::fromArrayOfArray(Db::fetchAll($sql));
     }
 
+    /**
+     * Discounts that are sold (exists winning bid for it).
+     * @return array of Discount
+     */
     public static function getFinished()
     {
         $sql = 'SELECT * FROM discounts WHERE timestamp_start<NOW() AND EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) ORDER BY `order`;';
         return self::fromArrayOfArray(Db::fetchAll($sql));
     }
 
+    /**
+     * Discounts that are not started yet.
+     * @return array of Discount
+     */
     public static function getInactive()
     {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start>NOW() OR timestamp_start IS NULL OR timestamp_start="0000-00-00 00:00:00" ORDER BY `order`;';
+        $sql = 'SELECT * FROM discounts WHERE timestamp_start>NOW() OR timestamp_start IS NULL OR timestamp_start="0000-00-00 00:00:00" ORDER BY `order` ASC;';
         return self::fromArrayOfArray(Db::fetchAll($sql));
+    }
+
+    /**
+     * Returns first discount that is suited to be active.
+     * @return Discount
+     * @throws Exception
+     */
+    public static function getFirstInactive()
+    {
+        $discounts = self::getInactive();
+        if(count($discounts) == 0)
+        {
+            throw new Exception("getFirstInactive: no inactive discounts to get.");
+        }
+        return $discounts[0];
+    }
+
+    /**
+     * Count of discounts that are not started yet.
+     * @return int
+     */
+    public static function getInactiveCount()
+    {
+        $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start>NOW() OR timestamp_start IS NULL OR timestamp_start="0000-00-00 00:00:00" ORDER BY `order`;';
+        return Db::fetchOne($sql);
+    }
+
+    /**
+     * Activates new discount.
+     */
+    protected static function _processAddNewActiveDiscount()
+    {
+        self::getFirstInactive()->setStartedNow()->save();
+    }
+
+    /**
+     * Activates discounts until their number is restored to $NUMBER_OF_CONCURRENT_DISCOUNTS (as for 10.6., =3)
+     */
+    public static function processUpdateActiveCount()
+    {
+        while(self::getInactiveCount() > 0 && self::getActiveCount() < self::$NUMBER_OF_CONCURRENT_DISCOUNTS)
+        {
+            // "Need to activate new discount, because of active count=" . self::getActiveCount();
+            self::_processAddNewActiveDiscount();
+        }
     }
 
 }

@@ -12,4 +12,8 @@ function formatSqlTimestamp($sql_timestamp) {
     return formatTimestamp(strtotime($sql_timestamp));
 }
 
+function NOW() {
+    return date('Y-m-d G:i:s');
+}
+
 ?>

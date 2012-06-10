@@ -1,5 +1,6 @@
 <?php
 require_once('models/Discount.php');
+Discount::processUpdateActiveCount();
 if (isset($_GET['action']) && $_GET['action'] == 'duplicate')
 {
     $discount = Discount::getById($_GET['discount_id']);

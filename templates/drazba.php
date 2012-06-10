@@ -1,6 +1,7 @@
 <h2>Aktuálne zľavy:</h2>
 <?php
     require_once('models/Discount.php');
+    Discount::processUpdateActiveCount();
     $discounts = Discount::getActive();
     /* @var $discount Discount */
     foreach($discounts as $discount) {
