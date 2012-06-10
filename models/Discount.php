@@ -4,8 +4,8 @@ require_once('models/Bid.php');
 
 class Discount extends Row
 {
-    public static $NUMBER_OF_CONCURRENT_DISCOUNTS = 3;
 
+    public static $NUMBER_OF_CONCURRENT_DISCOUNTS = 3;
     protected static $_table = 'discounts';
     protected static $_primary_key = 'discount_id';
 
@@ -24,7 +24,8 @@ class Discount extends Row
         return $this;
     }
 
-    public function hasStartedYet() {
+    public function hasStartedYet()
+    {
         if (is_null($this->timestamp_start))
         {
             return false;
@@ -43,7 +44,8 @@ class Discount extends Row
      */
     public function isActive()
     {
-        if(!$this->hasStartedYet()) {
+        if (!$this->hasStartedYet())
+        {
             return false;
         }
         $sql = 'SELECT COUNT(*) FROM bids WHERE bids.winning = 1 AND bids.discount_id = ' . $this->discount_id;
@@ -56,7 +58,8 @@ class Discount extends Row
      */
     public function getLastBidPrice()
     {
-        if(!$this->hasStartedYet()) {
+        if (!$this->hasStartedYet())
+        {
             throw new Exception('Getting last bid price of discount not started yet');
         }
         try
@@ -65,7 +68,8 @@ class Discount extends Row
         }
         catch (Exception $e)
         {
-            if($this->price_drop_time == 0) {
+            if ($this->price_drop_time == 0)
+            {
                 return $this->asking_price;
             }
             $passed = time() - strtotime($this->timestamp_start);
@@ -74,9 +78,36 @@ class Discount extends Row
         }
     }
 
+    /**
+     *
+     * @return int
+     */
+    public function getNextExtendedValidity()
+    {
+        try
+        {
+            $extended_validity = $this->getLastBid()->extended_validity - $this->bid_validity_decay;
+        }
+        catch (Exception $e)
+        {
+            $extended_validity = $this->bid_initial_validity;
+        }
+        if ($extended_validity < 0)
+        {
+            $extended_validity = 0;
+        }
+        return $extended_validity;
+    }
+
     public function getAllBids()
     {
         return Bid::getByDiscountId($this->discount_id);
+    }
+
+    public function hasBid()
+    {
+        $sql = 'SELECT COUNT(*) FROM bids WHERE discount_id = ' . $this->discount_id;
+        return Db::fetchOne($sql)>0;
     }
 
     /**
@@ -130,7 +161,6 @@ class Discount extends Row
         {
             throw new Exception("Discount is valid forever");
         }
-
         $timestamp = strtotime($bid->timestamp);
         /* @var $bid Bid */
         foreach ($this->getAllBids() as $bid)
@@ -216,7 +246,7 @@ class Discount extends Row
     public static function getFirstInactive()
     {
         $discounts = self::getInactive();
-        if(count($discounts) == 0)
+        if (count($discounts) == 0)
         {
             throw new Exception("getFirstInactive: no inactive discounts to get.");
         }
@@ -246,7 +276,7 @@ class Discount extends Row
      */
     public static function processUpdateActiveCount()
     {
-        while(self::getInactiveCount() > 0 && self::getActiveCount() < self::$NUMBER_OF_CONCURRENT_DISCOUNTS)
+        while (self::getInactiveCount() > 0 && self::getActiveCount() < self::$NUMBER_OF_CONCURRENT_DISCOUNTS)
         {
             // "Need to activate new discount, because of active count=" . self::getActiveCount();
             self::_processAddNewActiveDiscount();
