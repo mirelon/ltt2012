@@ -152,7 +152,7 @@ class Discount extends Row
         }
         catch (Exception $e)
         {
-            return "Uvidíme";
+            return "Ešte nikto neprejavil záujem.";
         }
     }
 

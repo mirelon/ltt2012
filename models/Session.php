@@ -5,6 +5,10 @@ require_once('User.php');
 class Session {
   protected static $_logged_user = null;
 
+  /**
+   *
+   * @return User
+   */
   public static function getLoggedUser() {
     return self::$_logged_user;
   }

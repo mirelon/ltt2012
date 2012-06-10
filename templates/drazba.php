@@ -1,3 +1,4 @@
+Disponzibilný zostatok: <?php echo vysklonuj(Session::getLoggedUser()->getDisponsibleCredits(), 'kredit'); ?>.
 <h2>Aktuálne zľavy:</h2>
 <?php
     require_once('models/Discount.php');
