@@ -100,6 +100,16 @@ class Row
         }
     }
 
+    public function delete()
+    {
+        $class = get_called_class();
+        $sql = 'DELETE FROM ' . $class::$_table . ' WHERE `' . $class::$_primary_key . '` = "' . $this->_data[$class::$_primary_key] . '";';
+        if(mysql_query($sql) === false)
+        {
+            throw new Exception("Could not delete the item: " . mysql_error());
+        }
+    }
+
     public function getDuplicate()
     {
         $class = get_called_class();

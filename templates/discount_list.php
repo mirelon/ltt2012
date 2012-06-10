@@ -1,10 +1,18 @@
 <?php
 require_once('models/Discount.php');
 Discount::processUpdateActiveCount();
-if (isset($_GET['action']) && $_GET['action'] == 'duplicate')
+if (isset($_GET['action']))
 {
-    $discount = Discount::getById($_GET['discount_id']);
-    $discount->getDuplicate()->save();
+    if($_GET['action'] == 'duplicate')
+    {
+        $discount = Discount::getById($_GET['discount_id']);
+        $discount->getDuplicate()->save();
+    }
+    if($_GET['action'] == 'delete')
+    {
+        $discount = Discount::getById($_GET['discount_id']);
+        $discount->delete();
+    }
 }
 ?>
 <script type="text/javascript">
