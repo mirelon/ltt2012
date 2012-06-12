@@ -1,15 +1,9 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="icon" href="images/logo.jpg" />
 <title>
-<?php
-  if(Session::isLoggedIn()) {
-    echo "Dražba zliav LTT 2012";
-  } else {
-    echo 'Letný tábor trojstenu 2012';
-  }
-?>
+Letný tábor trojstenu 2012
 </title>
 <link rel="stylesheet" href="templates/style.css" />
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
@@ -18,10 +12,11 @@
 <body>
 <div class="wrapper">
 <div class="header rounded">
-<?php require_once('header.php'); ?>
+<h1>Letný tábor trojstenu 2012</h1>
+<p>Sorry, padol nam na server meteorit, zachranujeme co sa da a kedze sme sikovni, tak o chvilu tu to bude znovu fungovat.</p>
 </div>
 <div class="content rounded">
-<?php require_once($current_page); ?>
+<img alt="udrzba stranky" src="images/site-maintenance.jpg" />
 </div>
 </div>
 </body>

@@ -11,6 +11,14 @@ class User extends Row
 
     /**
      *
+     * @return string
+     */
+    public function getFullName() {
+        return $this->first_name . " " . $this->nick . " " . $this->last_name;
+    }
+
+    /**
+     *
      * @param Discount $discount
      * @param int $price
      * @return User
@@ -125,6 +133,22 @@ class User extends Row
     {
         $sql = 'SELECT * FROM bids WHERE winning = 1 AND user_id = ' . $this->user_id;
         return Bid::fromArrayOfArray(Db::fetchAll($sql));
+    }
+
+    /**
+     *
+     * @return array of Discount
+     */
+    public function getWonDiscounts()
+    {
+        $sql = '
+            SELECT * FROM discounts
+            LEFT JOIN bids ON discounts.discount_id = bids.discount_id
+            WHERE bids.winning = 1
+            AND bids.user_id = ' . $this->user_id . '
+            ORDER BY bids.timestamp';
+        return Discount::fromArrayOfArray(Db::fetchAll($sql));
+
     }
 
     /*     * ***********      STATIC FUNCTIONS      ************* */

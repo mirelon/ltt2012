@@ -15,6 +15,7 @@ class Db
     {
         self::$link = mysql_connect(self::$host, self::$user, self::$password) or die('Could not connect to database.');
         mysql_select_db(self::$dbname);
+        mysql_set_charset('utf8');
     }
 
     public static function terminate()
@@ -31,6 +32,10 @@ class Db
     {
         $result = mysql_query($sql);
         $rows = array();
+        if($result == false)
+        {
+            throw new Exception("No rows fetched: " . mysql_error());
+        }
         while ($row = mysql_fetch_assoc($result))
         {
             $rows [] = $row;

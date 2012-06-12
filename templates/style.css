@@ -39,7 +39,7 @@ div.header div.navigation div.item {
   background-color:#94B84D;
   padding:5px;
   float:left;
-  margin-left:30px;
+  margin-left:20px;
 }
 
 div.header div.navigation div.item:hover {
@@ -89,6 +89,11 @@ a.duplicate {
 }
 
 a.delete {
+  background-color:#FF5050;
+  color:#802828;
+}
+
+a.logout {
   background-color:#FF5050;
   color:#802828;
 }

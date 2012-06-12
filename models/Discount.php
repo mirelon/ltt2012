@@ -198,14 +198,6 @@ class Discount extends Row
 
     /*     * ***********      STATIC FUNCTIONS      ************* */
 
-    /**
-     * Najde zlavy, ktorym vyprsal bid validity, a stavaju sa predanymi
-     */
-    public static function getNewWinning()
-    {
-        $sql = 'SELECT * FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<=NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id) AND discount(SELECT SUM(extended_validity) FROM bids WHERE bids.discount_id = discounts.discount_id)';
-    }
-
     public static function getActiveCount()
     {
         $sql = 'SELECT COUNT(*) FROM discounts WHERE timestamp_start!="0000-00-00 00:00:00" AND timestamp_start<=NOW() AND NOT EXISTS (SELECT * FROM bids WHERE bids.winning = 1 AND bids.discount_id = discounts.discount_id);';
@@ -280,6 +272,30 @@ class Discount extends Row
         {
             // "Need to activate new discount, because of active count=" . self::getActiveCount();
             self::_processAddNewActiveDiscount();
+        }
+    }
+
+    /**
+     * Determines which active discounts are expired:
+     * If sum of bid validities added to start is over, the discount is to be sold.
+     */
+    public static function processExpired()
+    {
+        /* @var $discount Discount */
+        foreach (self::getActive() as $discount)
+        {
+            try
+            {
+                if($discount->getBidValidity() < time())
+                {
+                    $bid = $discount->getLastBid();
+                    $bid->winning = 1;
+                    $bid->save();
+                }
+            }
+            catch (Exception $e){}
+
+
         }
     }
 

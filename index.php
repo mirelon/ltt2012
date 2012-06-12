@@ -1,4 +1,11 @@
 <?php
+/** in case of emergency, use this: **/
+
+//require_once('templates/error.php');
+//die;
+
+/*************************************/
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -19,7 +26,8 @@ if(Session::isLoggedIn()) {
   $pages = array_merge($pages, array(
     'drazba' => array('script' => 'drazba.php', 'nav' => 'Dražba', 'url' => $base_url.'?page=drazba'),
     'sifry' => array('script' => 'sifry.php', 'nav' => 'Šifry', 'url' => $base_url.'?page=sifry'),
-    'logout' => array('script' => 'logout.php', 'nav' => 'Logout', 'url' => $base_url.'?page=logout'),
+    'profil' => array('script' => 'profile.php', 'nav' => Session::getLoggedUser()->nick, 'url' => $base_url.'?page=profil'),
+    'logout' => array('script' => 'logout.php', 'nav' => null, 'url' => $base_url.'?page=logout'),
   ));
   if(Session::getLoggedUser()->user_id == 3) {
     $pages = array_merge($pages, array(
