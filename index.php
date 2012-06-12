@@ -18,6 +18,11 @@ Db::$host = $db_host;
 Db::init();
 Session::checkLogin();
 
+if(Session::isLoggedIn()) {
+    Session::getLoggedUser()->logAccess();
+}
+
+
 $current_page = 'uvod.php';
 $pages = array(
     'index' => array('script' => 'uvod.php', 'nav' => 'Úvod', 'url' => $base_url)

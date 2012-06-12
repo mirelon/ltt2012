@@ -18,6 +18,16 @@ class User extends Row
     }
 
     /**
+     * Adds row to table user_accesses. For debugging purposes only
+     */
+    public function logAccess() {
+        $sql = 'INSERT INTO user_accesses (`user_id`, `url`) VALUES(' . $this->user_id . ', "' . escape($_SERVER['QUERY_STRING'] . " " . json_encode($_POST)) . '");';
+        if(mysql_query($sql) === false) {
+            throw new Exception(mysql_error());
+        }
+    }
+
+    /**
      *
      * @param Discount $discount
      * @param int $price
