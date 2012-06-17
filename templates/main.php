@@ -21,7 +21,7 @@
 <?php require_once('header.php'); ?>
 </div>
 <div class="content rounded">
-<?php require_once($current_page); ?>
+<?php require_once($current_page_script); ?>
 </div>
 </div>
 </body>

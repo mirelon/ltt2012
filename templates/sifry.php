@@ -16,5 +16,41 @@ text-align:center;
 <tr><td>M</td><td>E</td><td>N</td><td>N</td><td>O</td><td>D</td><td>Y</td><td>H</td><td>R</td></tr>
 <tr><td>R</td><td>U</td><td>A</td><td>S</td><td>U</td><td>N</td><td>E</td><td>V</td><td>O</td></tr>
 <tr><td>J</td><td>Y</td><td>N</td><td>X</td><td>I</td><td>N</td><td>O</td><td>!</td><td>I</td></tr>
-
 </table>
+
+<form id="riesenieSifry" method="post" action="">
+<input type="text" id="riesenie" />
+<input type="submit" id="odosli" value="Odošli riešenie" /><br/>
+<span id="result"></span>
+</form>
+
+<script type="text/javascript">
+$(function(){
+  
+  function odosliRiesenie(nazov, riesenie) {
+    var obj = {
+      'nazov':nazov,
+      'riesenie':riesenie,
+    }
+    $.post('?page=riesenieSifry', obj, function(response){
+        if(response == 'ok') {
+          $('#result').text('Správne').css({'color': 'green'}).fadeIn();
+        } else {
+          $('#result').text('Nesprávne').css({'color': 'red'}).fadeIn();
+          $('#riesenie').select().focus();
+        }
+      });
+  }
+
+  $('#riesenie, #result').hide();
+  
+  $('#riesenieSifry').submit(function(event){
+    if($('#riesenie').is(':visible')) {
+      odosliRiesenie('trojita', $('#riesenie').val());
+    } else {
+      $('#riesenie').fadeIn().select().focus();
+    }
+    return false;
+  });
+});
+</script>
