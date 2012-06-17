@@ -33,7 +33,8 @@ $(function(){
       'riesenie':riesenie,
     }
     $.post('?page=riesenieSifry', obj, function(response){
-        if(response == 'ok') {
+        console.log(response);
+        if($.trim(response) == 'ok') {
           $('#result').text('Správne').css({'color': 'green'}).fadeIn();
         } else {
           $('#result').text('Nesprávne').css({'color': 'red'}).fadeIn();
