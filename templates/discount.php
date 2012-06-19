@@ -33,3 +33,4 @@ if(isset($_POST['title'])) {
 <tr><td></td><td><input type="submit" value="Odošli" /></td></tr>
 </table>
 </form>
+<div id="tooltip"></div>

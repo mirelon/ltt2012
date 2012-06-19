@@ -76,6 +76,7 @@ if (isset($_GET['action']))
     <input type="hidden" name="discount_order" id="discount_order" value="" />
     <input type="submit" value="Updatni poradie" />
 </form>
+<div id="tooltip"></div>
 
 <script type="text/javascript">
     $('form#discount_order_form').submit(function(e){
