@@ -196,6 +196,39 @@ class Discount extends Row
         return $this;
     }
 
+    /**
+     * If not exists local version of the file, download it.
+     * Return string for the local file. If not available, return placeholder image.
+     * @return string
+     */
+    public function getImgSrc()
+    {
+      try {
+      if(strlen($this->img)==0) {
+        throw new Exception('No image set for discount.');
+      }
+      if(substr($this->img,0,4)!='http') {
+        throw new Exception('Pokus o hekovanie.');
+      }
+      $known_img_extensions = array('jpg', 'png', 'gif');
+      $filename = md5($this->img);
+      $ext = substr($this->img, -3);
+      if(in_array($ext, $known_img_extensions)) {
+        $filename.='.'.$ext;
+      }
+      if(!file_exists('images/discounts/'.$filename)) {
+        $img = file_get_contents($this->img);
+        if($img===false) {
+          throw new Exception('Could not download image.');
+        }
+          file_put_contents('images/discounts/'.$filename, $img);
+      }
+      return 'images/discounts/'.$filename;
+      } catch(Exception $e) {
+        return 'images/discounts/placeholder.jpg';
+      }
+    }
+
     /*     * ***********      STATIC FUNCTIONS      ************* */
 
     public static function getActiveCount()

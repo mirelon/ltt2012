@@ -29,6 +29,7 @@ foreach ($discounts as $discount)
 {
     ?>
     <div class="discount rounded">
+        <div class="left_part">
         <h3><?php echo $discount->title; ?></h3>
         Najvyššia ponuka:
         <?php
@@ -65,6 +66,12 @@ foreach ($discounts as $discount)
         echo "Posledná ponuka je tvoja, preto ju nemôžeš prebiť.";
     }
     ?>
+    </div>
+    <div class="right_part">
+      <img src="<?php echo $discount->getImgSrc(); ?>" alt="" />
+    </div>
+    <div class="clear">
+    </div>
     </div>
     <?php
 }

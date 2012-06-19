@@ -18,6 +18,9 @@ span.error {
     color:#FF0000;
 }
 
+div.clear {
+  clear: both;
+}
 
 
 div.header {
@@ -100,4 +103,13 @@ a.logout {
 
 input.price-input {
     width: 40px;
+}
+
+div.left_part, div.right_part {
+  float: left;
+  width: 50%;
+}
+
+div.right_part img {
+  width: 100%;
 }
