@@ -18,6 +18,11 @@ text-align:center;
 <tr><td>J</td><td>Y</td><td>N</td><td>X</td><td>I</td><td>N</td><td>O</td><td>!</td><td>I</td></tr>
 </table>
 
+<?php
+  if(Session::getLoggedUser()->hasSolved()) {
+    echo "Šifru si už vyriešil/a";
+  } else {
+?>
 <form id="riesenieSifry" method="post" action="">
 <input type="text" id="riesenie" />
 <input type="submit" id="odosli" value="Odošli riešenie" /><br/>
@@ -63,3 +68,6 @@ $(function(){
   });
 });
 </script>
+<?php
+  }
+?>

@@ -161,6 +161,25 @@ class User extends Row
 
     }
 
+    /**
+     *
+     * @return boolean
+     */
+    public function hasSolved()
+    {
+      return $this->solved_timestamp != null;
+    }
+
+    /**
+     *
+     * @return User
+     */
+    public function logSolved()
+    {
+      $this->solved_timestamp = NOW();
+      return $this;
+    }
+
     /*     * ***********      STATIC FUNCTIONS      ************* */
 
     /**
