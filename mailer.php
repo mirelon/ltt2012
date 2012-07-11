@@ -7,7 +7,7 @@ Db::$dbname = $db_name;
 Db::$host = $db_host;
 Db::init();
 
-$users = Db::fetchAll('SELECT * FROM users;');
+$users = Db::fetchAll('SELECT * FROM users WHERE user_id=28;');
 
 foreach($users as $user) {
   $meno = $user['first_name'] . " " . $user['last_name'];
