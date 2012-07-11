@@ -48,9 +48,9 @@ $(function(){
     $.post('?page=riesenieSifry', {'nazov':nazov, 'riesenie':riesenie}, function(response){
         $('#loader').clearQueue();
         if($.trim(response) == 'ok') {
-          $('#result').text('Správne').css({'color': 'green'}).fadeIn();
+          $('#result').text('Správne, výsledný čas riešenia bol zaznamenaný.').css({'color': 'green'}).fadeIn();
         } else {
-          $('#result').text('Nesprávne').css({'color': 'red'}).fadeIn();
+          $('#result').text('Nesprávne.').css({'color': 'red'}).fadeIn();
           $('#riesenie').select().focus();
         }
       });
