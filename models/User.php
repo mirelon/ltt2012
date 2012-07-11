@@ -14,7 +14,7 @@ class User extends Row
      * @return string
      */
     public function getFullName() {
-        return $this->first_name . " " . $this->nick . " " . $this->last_name;
+        return $this->first_name . " " . $this->last_name;
     }
 
     /**
