@@ -149,13 +149,14 @@ class User extends Row
      *
      * @return array of Discount
      */
-    public function getWonDiscounts()
+    public function getWonDiscounts($only_not_printed = true)
     {
         $sql = '
             SELECT * FROM discounts
             LEFT JOIN bids ON discounts.discount_id = bids.discount_id
-            WHERE bids.winning = 1
-            AND bids.user_id = ' . $this->user_id . '
+            WHERE bids.winning = 1';
+        if($only_not_printed)$sql .= ' AND discounts.printed = 0';
+        $sql .= ' AND bids.user_id = ' . $this->user_id . '
             ORDER BY bids.timestamp';
         return Discount::fromArrayOfArray(Db::fetchAll($sql));
 

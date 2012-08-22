@@ -5,7 +5,7 @@ require_once('models/Bid.php');
 class Discount extends Row
 {
 
-    public static $NUMBER_OF_CONCURRENT_DISCOUNTS = 3;
+    public static $NUMBER_OF_CONCURRENT_DISCOUNTS = 5;
     protected static $_table = 'discounts';
     protected static $_primary_key = 'discount_id';
 
@@ -227,6 +227,15 @@ class Discount extends Row
       } catch(Exception $e) {
         return 'images/discounts/placeholder.jpg';
       }
+    }
+
+    public function getCouponHtml($name)
+    {
+      $title = '<h4>' . $this->title . '</h4>';
+      $img = '<img width="100%" src="' . $this->getImgSrc() . '" alt="' . $this->title . '" />';
+      $p = '<p>Kúpené za ' . $this->getLastBidPrice() . ' kreditov<br/><i>' . $name . '</i><br/>' . formatSqlTimestamp($this->getLastBid()->timestamp) . '</p>';
+      $html = $title . $img . $p;
+      return $html;
     }
 
     /*     * ***********      STATIC FUNCTIONS      ************* */

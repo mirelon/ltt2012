@@ -50,7 +50,7 @@ $(function(){
         if($.trim(response) == 'ok') {
           $('#result').text('Správne, výsledný čas riešenia bol zaznamenaný.').css({'color': 'green'}).fadeIn();
         } else {
-          $('#result').text('Nesprávne.').css({'color': 'red'}).fadeIn();
+          $('#result').text('Nesprávne. Hint: Nie nadarmo sa šifra volá trojitá. Hľadaj na stránke niečo podozrivé.').css({'color': 'red'}).fadeIn();
           $('#riesenie').select().focus();
         }
       });
