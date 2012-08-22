@@ -20,11 +20,12 @@ foreach($users as $user) {
   if(empty($discounts))continue;
   $meno = $user->first_name . " " . $user->last_name;
   foreach($discounts as $discount) {
+    $html[$i] .= '<div style="page-break-inside: avoid;border:1px dashed black;padding:5px;display:block;position:relative;float:top;width:95%;font-family:Helvetica;color:#4A5C26;text-align:center;">' . $discount->getCouponHtml($meno) . '</div>';
     if(isset($_GET['print'])) {
       $discount->printed = $_GET['print'];
+      $discount->unsetFields(array('bid_id', 'user_id', 'price', 'timestamp', 'extended_validity', 'winning'));
       $discount->save();
     }
-    $html[$i] .= '<div style="page-break-inside: avoid;border:1px dashed black;padding:5px;display:block;position:relative;float:top;width:95%;font-family:Helvetica;color:#4A5C26;text-align:center;">' . $discount->getCouponHtml($meno) . '</div>';
     $i=($i+1)%3;
   }  
 }

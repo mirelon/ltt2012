@@ -23,6 +23,20 @@ class Row
         $this->_data[$field] = $value;
     }
 
+    public function unsetField($field)
+    {
+      if(array_key_exists($field, $this->_data)) {
+        unset($this->_data[$field]);
+      }
+    }
+
+    public function unsetFields($fields)
+    {
+      foreach($fields as $field) {
+        $this->unsetField($field);
+      }
+    }
+
     protected static function getByFieldValue($field, $value)
     {
         $class = get_called_class();
