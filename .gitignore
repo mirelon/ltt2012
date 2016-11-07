@@ -1,3 +1,4 @@
 config.php
 connect.sh
 dump.sh
+dump.sql
